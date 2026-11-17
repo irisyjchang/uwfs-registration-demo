@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; form-action 'none'; base-uri 'none'">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UW Figure Skating · Registration Demo</title>
+<style>
+:root{font-family:system-ui,sans-serif;color:#271f36;background:#f4f0f8;--purple:#3c2c59;--line:#ded4e4;--gold:#f4ebd6;--muted:#60556a}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0}header{background:var(--purple);color:white;padding:20px 24px;border-bottom:4px solid #d8c38f}
+header div,main{max-width:650px;margin:auto}header span{font-size:.8rem;color:#f3e5be;font-weight:700;letter-spacing:.07em}
+header p{margin:6px 0 0;font:1.4rem Georgia,serif}
+main{padding:24px 16px 52px}aside{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px;color:var(--muted);font-size:.87rem}
+ol{display:flex;list-style:none;padding:0;margin:0 0 16px;gap:8px;color:var(--muted);font-size:.8rem}
+ol li{flex:1;border-bottom:3px solid var(--line);padding-bottom:8px}ol [aria-current]{border-color:var(--purple);color:var(--purple);font-weight:700}
+.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:clamp(16px,4vw,30px)}
+h1{font:2rem/1.15 Georgia,serif;margin:0 0 12px}h2{font-size:1.08rem;margin:24px 0 10px}p{line-height:1.5;margin:0 0 12px}.hint,small{color:var(--muted)}
+fieldset{border:0;margin:0;padding:0;min-width:0}legend{font-weight:700;margin-bottom:10px}
+.option{display:grid;grid-template-columns:auto 1fr;gap:10px;border:1px solid var(--line);padding:13px;border-radius:9px;margin:10px 0;cursor:pointer}.option:has(:checked){border-color:var(--purple);background:#f4f0f8}.option small{display:block;margin-top:4px;line-height:1.45}
+input,select,button{font:inherit}input[type=radio],input[type=checkbox]{accent-color:var(--purple)}
+label.field{display:block;font-weight:600;margin:14px 0}label.field small{font-weight:400}
+input:not([type=radio],[type=checkbox]),select{display:block;width:100%;padding:10px;border:1px solid var(--line);border-radius:7px;background:#faf8fc;color:inherit;margin:5px 0 0;min-height:44px}
+.check{display:flex;align-items:baseline;gap:8px;margin:10px 0;line-height:1.4}.yesno{display:flex;gap:20px;flex-wrap:wrap}
+details{margin-top:18px}summary{cursor:pointer;font-weight:600;color:var(--purple)}details ul{padding-left:20px;line-height:1.5}
+.note{background:var(--gold);border-radius:9px;padding:14px;margin:14px 0}.note p:last-child{margin:0}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+button{padding:10px 14px;min-height:42px;border:1px solid var(--purple);border-radius:8px;color:white;background:var(--purple);cursor:pointer;font-weight:650}
+button.secondary{background:white;color:var(--purple)}button:hover{filter:brightness(.93)}:focus-visible{outline:3px solid #7650a1;outline-offset:3px}
+#issue{color:#8b2539;margin-top:14px}dialog{max-width:min(460px,calc(100% - 32px));border:1px solid var(--line);border-radius:12px;padding:22px;color:inherit}dialog::backdrop{background:#271f3699}
+#receipt,#rinkStatus{font-weight:650;margin:10px 0}a{color:var(--purple)}.review{margin:15px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;line-height:1.4}.review dt{color:var(--muted)}.review dd{margin:0;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<header><div><span>UW FIGURE SKATING</span><p>Recreational membership</p></div></header>
+<main>
+<aside><span>Class demo. Use sample details. Payments and account setup are simulated.</span><button id="sample" class="secondary" type="button">Use sample details</button></aside>
+<ol aria-label="Registration progress"><li aria-current="step">1. Membership</li><li>2. Your details</li><li>3. Payment &amp; rink access</li><li>4. Review</li></ol>
+<form id="registration" class="panel" novalidate>
+<section data-step="0">
+<h1 tabindex="-1">Choose a membership</h1>
+<fieldset><legend>Membership plan</legend>
+<label class="option"><input type="radio" name="plan" value="practice" required><span><strong>Membership with included practice · $125</strong><small>Includes three private team practices each quarter plus club benefits. Other rink sessions may cost extra.</small></span></label>
+<label class="option"><input type="radio" name="plan" value="split" required><span><strong>Split payment · $65 today</strong><small>Same benefits as the $125 plan. The second $65 payment is due January 3.</small></span></label>
+<label class="option"><input type="radio" name="plan" value="basic" required><span><strong>Membership without included practice · $25</strong><small>Includes club benefits and activities. Private team practices cost $18 each.</small></span></label>
+</fieldset>
+<details><summary>Skating terms explained</summary><ul>
+<li><strong>Private team practice:</strong> Reserved ice time for club members.</li>
+<li><strong>Collegiate session:</strong> A skating session for college skaters.</li>
+<li><strong>Freestyle session:</strong> Rink time for practicing skating skills.</li>
+<li><strong>Spring showcase:</strong> A club skating performance.</li>
+</ul></details>
+<details><summary>Fall 2026 practice dates</summary><ul><li>October 10, 9:45–10:45 p.m.</li><li>October 24, 10:30–11:30 p.m.</li><li>November 21, 9:30–10:30 p.m.</li></ul></details>
+<div class="row"><button type="button" data-next>Continue to your details</button></div>
+</section>
+<section data-step="1" hidden>
+<h1 tabindex="-1">Tell us about yourself</h1>
+<label class="field">Legal first and last name <input name="legal" required autocomplete="off"></label>
+<label class="field">Preferred name <small>(optional)</small><input name="preferred" autocomplete="off"></label>
+<label class="field">UW email <input name="uwEmail" type="email" required autocomplete="off"></label>
+<label class="field">Email for club communications <input name="clubEmail" type="email" required autocomplete="off"></label>
+<label class="field">Phone number <input name="phone" type="tel" required autocomplete="off"></label>
+<label class="field">UW student ID <input name="studentId" inputmode="numeric" required autocomplete="off"></label>
+<label class="field">Student level <select name="level" required><option value="">Choose a level</option><option>Undergraduate</option><option>Graduate</option></select></label>
+<label class="field"><span id="yearLabel">Expected graduation year</span><input name="year" inputmode="numeric" pattern="[0-9]{4}" required></label>
+<div class="note"><strong>U.S. Figure Skating membership</strong><p>USFS stands for U.S. Figure Skating, the national skating organization. If you don’t have a membership number, enter N/A.</p></div>
+<label class="field">USFS membership number <input name="usfs" required autocomplete="off"></label>
+<label class="field">Dietary restrictions <input name="dietary" required placeholder="Enter None if you have none"></label>
+<div class="row"><button type="button" class="secondary" data-back>Back</button><button type="button" data-next>Continue to payment and rink access</button></div>
+</section>
+<section data-step="2" hidden>
+<h1 tabindex="-1">Payment and rink access</h1>
+<div class="note"><strong id="planTitle"></strong><p id="amountDue"></p><button id="payButton" type="button">Simulate payment</button><p id="receipt" role="status" hidden></p></div>
+<details><summary>Paying by Zelle?</summary><p>Contact the club treasurer about paying separately.</p><button class="secondary" type="button" id="zelle">Simulate Zelle payment</button></details>
+<h2>Kraken Iceplex account</h2><p class="hint">Sign in or create an account in DaySmart, then return to finish registering.</p>
+<button type="button" class="secondary" id="rink">Open DaySmart demo ↗</button>
+<p id="rinkStatus" role="status" hidden></p>
+<label class="field">Name on your Kraken / DaySmart account <input name="rinkName" required autocomplete="off"></label>
+<h2>Consent and acknowledgments</h2>
+<label class="check"><input type="checkbox" name="refund" required> I understand membership fees are non-refundable.</label>
+<div id="installments" hidden>
+<label class="check"><input type="checkbox" name="installmentConfirm" disabled required> I agree to pay the second $65 installment by January 3.</label>
+<label class="field">Payment plan acknowledgment <input name="installmentName" placeholder="Enter your legal name" disabled required></label>
+</div>
+<label class="check"><input type="checkbox" name="injury" required> I acknowledge the skating injury responsibility statement.</label>
+<label class="field">Injury acknowledgment signature <input name="injuryName" required placeholder="Enter your legal name"></label>
+<fieldset><legend>May the club share your photo or name?</legend><div class="yesno">
+<label><input type="radio" name="consent" value="Yes" required> Yes</label>
+<label><input type="radio" name="consent" value="No" required> No</label>
+</div></fieldset>
+<p id="optOut" class="note" hidden>The current club process asks you to email the social media chair to discuss your preferences.</p>
+<p id="issue" role="alert" hidden></p>
+<div class="row"><button type="button" class="secondary" data-back>Back</button><button type="button" data-next>Review registration</button></div>
+</section>
+<section data-step="3" hidden>
+<h1 tabindex="-1">Review your registration</h1>
+<dl id="review" class="review"></dl>
+<div class="row"><button type="button" class="secondary" data-back>Back</button><button type="submit">Submit demo registration</button></div>
+</section>
+<section data-step="4" hidden>
+<h1 tabindex="-1">Demo registration complete</h1>
+<p id="done"></p>
+<button class="secondary" type="button" id="restart">Start over</button>
+</section>
+</form>
+</main>
+<dialog id="payDialog"><h2>Simulated checkout</h2><p id="checkoutCopy"></p><div class="row"><button type="button" class="secondary" data-close>Cancel</button><button type="button" id="confirmPay">Confirm mock payment</button></div></dialog>
+<dialog id="rinkDialog"><h2>DaySmart handoff</h2><p>This screen simulates signing in or creating an account at Kraken Iceplex. Select Return to complete the handoff.</p><div class="row"><button type="button" class="secondary" data-close>Cancel</button><button type="button" id="returnRink">Return to registration</button></div></dialog>
+<script>
+const form = document.querySelector('#registration');
+const panels = [...form.querySelectorAll('[data-step]')];
+const progress = [...document.querySelectorAll('ol li')];
+const byId = id => document.getElementById(id);
+const field = name => form.elements.namedItem(name);
+const plans = {
+  practice: {title: 'Membership with included practice', amount: 125},
+  split: {title: 'Membership with included practice, installment plan', amount: 65},
+  basic: {title: 'Membership without included practice', amount: 25}
+};
+const money = amount => '$' + amount.toFixed(2);
+let stage = 0;
+let payment = null;
+let rinkComplete = false;
+function show(next) {
+  stage = next;
+  panels.forEach((panel, index) => { panel.hidden = index !== stage; });
+  progress.forEach((item, index) => {
+    if (index === stage) item.setAttribute('aria-current', 'step');
+    else item.removeAttribute('aria-current');
+  });
+  byId('sample').hidden = stage >= 3;
+  panels[stage].querySelector('h1').focus({preventScroll: true});
+  window.scrollTo(0, 0);
+}
+function syncPayment() {
+  const plan = plans[field('plan').value];
+  if (!plan) return;
+  byId('planTitle').textContent = plan.title;
+  byId('amountDue').textContent = 'Due today: ' + money(plan.amount);
+  byId('payButton').textContent = 'Simulate ' + money(plan.amount) + ' payment';
+  byId('receipt').hidden = !payment;
+  byId('receipt').textContent = payment ? money(plan.amount) + ' · ' + payment + ' · Demo receipt UWFS-001' : '';
+  byId('installments').hidden = field('plan').value !== 'split';
+  for (const input of byId('installments').querySelectorAll('input')) input.disabled = byId('installments').hidden;
+}
+function addReview() {
+  const details = {
+    'Member': field('legal').value,
+    'Membership': plans[field('plan').value].title,
+    'Payment': money(plans[field('plan').value].amount) + ' · ' + payment,
+    'Rink account': field('rinkName').value,
+    'Photo and name sharing': field('consent').value
+  };
+  const list = byId('review');
+  list.replaceChildren();
+  for (const [label, value] of Object.entries(details)) {
+    const term = document.createElement('dt');
+    const detail = document.createElement('dd');
+    term.textContent = label;
+    detail.textContent = value;
+    list.append(term, detail);
+  }
+}
+function next() {
+  if (stage === 2) {
+    const warning = !payment ? 'Simulate payment before continuing.' :
+      !rinkComplete ? 'Complete the DaySmart handoff before continuing.' : '';
+    byId('issue').textContent = warning;
+    byId('issue').hidden = !warning;
+    if (warning) {
+      byId(payment ? 'rink' : 'payButton').focus();
+      return;
+    }
+  }
+  const invalid = [...panels[stage].querySelectorAll('input,select')].find(input => !input.checkValidity());
+  if (invalid) { invalid.reportValidity(); return; }
+  if (stage === 1) syncPayment();
+  if (stage === 2) addReview();
+  show(stage + 1);
+}
+form.addEventListener('click', event => {
+  if (event.target.matches('[data-next]')) next();
+  if (event.target.matches('[data-back]')) show(stage - 1);
+});
+form.addEventListener('change', event => {
+  if (event.target.name === 'plan') { payment = null; syncPayment(); }
+  if (event.target.name === 'consent') byId('optOut').hidden = field('consent').value !== 'No';
+  if (event.target.name === 'level') {
+    byId('yearLabel').textContent = (field('level').value ? field('level').value + ' expected' : 'Expected') + ' graduation year';
+  }
+});
+byId('sample').addEventListener('click', () => {
+  if (!field('plan').value) field('plan').value = 'practice';
+  const sample = {legal:'Jamie Example',preferred:'Jamie',uwEmail:'jamie@example.test',clubEmail:'jamie@example.test',phone:'206-555-0101',studentId:'1234567',level:'Undergraduate',year:'2028',usfs:'N/A',dietary:'None',rinkName:'Jamie Example',installmentName:'Jamie Example',injuryName:'Jamie Example',consent:'Yes'};
+  for (const [name, value] of Object.entries(sample)) if (!field(name).value) field(name).value = value;
+  byId('yearLabel').textContent = field('level').value + ' expected graduation year';
+  byId('optOut').hidden = field('consent').value !== 'No';
+  syncPayment();
+});
+byId('payButton').addEventListener('click', () => {
+  byId('checkoutCopy').textContent = 'Amount due: ' + money(plans[field('plan').value].amount) + '. This demo uses a mock card and does not charge you.';
+  byId('payDialog').showModal();
+});
+byId('confirmPay').addEventListener('click', () => {
+  payment = 'Mock card payment confirmed';
+  syncPayment();
+  byId('issue').hidden = true;
+  byId('payDialog').close();
+});
+byId('zelle').addEventListener('click', () => {
+  payment = 'Mock Zelle payment confirmed';
+  syncPayment();
+  byId('issue').hidden = true;
+});
+byId('rink').addEventListener('click', () => byId('rinkDialog').showModal());
+byId('returnRink').addEventListener('click', () => {
+  rinkComplete = true;
+  byId('rinkStatus').textContent = 'Returned from DaySmart';
+  byId('rinkStatus').hidden = false;
+  byId('issue').hidden = true;
+  byId('rinkDialog').close();
+});
+document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  if (stage < 3) { next(); return; }
+  if (stage !== 3) return;
+  byId('done').textContent = 'You reached the end of the demo. No registration was sent.';
+  show(4);
+});
+byId('restart').addEventListener('click', () => {
+  form.reset();
+  payment = null;
+  rinkComplete = false;
+  for (const id of ['rinkStatus','receipt','optOut','issue']) byId(id).hidden = true;
+  byId('yearLabel').textContent = 'Expected graduation year';
+  show(0);
+});
+</script>
+</body>
+</html>
